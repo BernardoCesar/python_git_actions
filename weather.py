@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from google.cloud import storage
-from google.oath2 import service__account
+from google.oauth2 import service_account
 import requests
 
 headers = {
@@ -31,8 +31,15 @@ try:
 
   print(info)
 
-  with open('weather_info.txt', 'a') as f:
-    f.write(info + '\n')
+  """Uploads a file to the bucket."""
+  credentials = service_account.Credentials.from_service_account_info(credentials_dict)
+  storage_client = storage.Client(credentials=credentials)
+  bucket = storage_client.get_bucket('weather_sp_be')
+  blob = bucket.blob('weather_info.txt')
+
+  blob.upload_from_string(info + '\n')
+
+  print('File uploaded.')
 
   print("Finished.")
 except Exception as ex:
