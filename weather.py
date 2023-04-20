@@ -1,6 +1,4 @@
 from bs4 import BeautifulSoup
-from google.cloud import storage
-from google.oauth2 import service_account
 import requests
 
 headers = {
@@ -23,6 +21,6 @@ try:
   with open('weather_info.txt', 'a') as f:
         f.write(info + '\n')
   print("Finished.")
-  
+
 except Exception as ex:
     print(ex)
